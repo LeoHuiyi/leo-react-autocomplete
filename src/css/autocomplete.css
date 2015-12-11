@@ -1,4 +1,5 @@
 /*autocomplete*/
+
 .autocomplete {
     display: inline-block;
 }
@@ -24,6 +25,7 @@
 }
 
 .autocomplete .comboBox-input {
+    font-size: 16px;
     width: 100%;
     height: 30px;
     color: #999;

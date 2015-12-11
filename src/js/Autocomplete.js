@@ -29,7 +29,6 @@ function cx(classNames) {
 }
 
 const reescaperegex = /[\-\[\]{}()*+?.,\\\^$|#\s]/g;
-const reLetter = /^[A-Za-z]$/;
 
 function escapeRegex( value ) {
     return value.replace(reescaperegex, "\\$&" );
@@ -266,26 +265,28 @@ class Autocomplete extends React.Component {
         }
     }
 
-    search(key = '', callback){
+    search(search = '', callback){
         let _data = this._data;
         let data = [];
+        let props = this.props;
 
-        key = String(key);
+        search = String(search);
         this.isNotFound = false;
 
-        if(!key || !_data.length){
+        if(!search || !_data.length){
             data = _data;
         }else{
-            if(reLetter.test(key[0])){
-                data = filter(_data, key, 'py');
+            let filter = props.filter;
+            if(typeof filter === 'function'){
+                data = filter(_data, search, props.valueName, props.labelName) || [];
             }else{
-                data = filter(_data, key, 'name');
+                data = filter(_data, search, filter);
             }
 
             if(!data.length){
                 data = [{
                     disabled: true,
-                    [this.props.valueName]: 'Not Found'
+                    [props.valueName]: 'Not Found'
                 }];
 
                 this.isNotFound = true;
@@ -796,6 +797,7 @@ Autocomplete.defaultProps = {
     placeholder: '',
     labelName: 'key',
     valueName: 'value',
+    filter: 'value',
     menuStyle: {},
     onSelect: noop,
     onBlur: noop,
@@ -821,7 +823,11 @@ Autocomplete.propTypes = {
     onBlur: React.PropTypes.func,
     onTab: React.PropTypes.func,
     listHeight: React.PropTypes.number.isRequired,
-    virtualMinLen: React.PropTypes.number
+    virtualMinLen: React.PropTypes.number,
+    filter: React.PropTypes.oneOfType([
+        React.PropTypes.string,
+        React.PropTypes.func
+    ])
 }
 
 export default Autocomplete;

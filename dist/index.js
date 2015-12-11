@@ -60,10 +60,28 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var data = [{}];
+	function getData(num) {
+	    var arr = [];
+
+	    while (num--) {
+	        arr.push({
+	            key: num,
+	            value: "leo" + num
+	        });
+	    }
+
+	    return arr;
+	}
 
 	_reactDom2.default.render(_react2.default.createElement(_Autocomplete2.default, {
-	    width: 396
+	    width: 396,
+	    data: getData(10),
+	    filter: function filter(data, search, value, label) {
+	        return data = data.filter(function (item) {
+	            return item[value].indexOf(search) > -1;
+	        });
+	    },
+	    menuStyle: { 'maxHeight': '200px' }
 	}), document.getElementById('content'));
 
 /***/ },
@@ -19715,7 +19733,6 @@
 	}
 
 	var reescaperegex = /[\-\[\]{}()*+?.,\\\^$|#\s]/g;
-	var reLetter = /^[A-Za-z]$/;
 
 	function escapeRegex(value) {
 	    return value.replace(reescaperegex, "\\$&");
@@ -19997,28 +20014,31 @@
 	        value: function search() {
 	            var _this5 = this;
 
-	            var key = arguments.length <= 0 || arguments[0] === undefined ? '' : arguments[0];
+	            var _search = arguments.length <= 0 || arguments[0] === undefined ? '' : arguments[0];
+
 	            var callback = arguments[1];
 
 	            var _data = this._data;
 	            var data = [];
+	            var props = this.props;
 
-	            key = String(key);
+	            _search = String(_search);
 	            this.isNotFound = false;
 
-	            if (!key || !_data.length) {
+	            if (!_search || !_data.length) {
 	                data = _data;
 	            } else {
-	                if (reLetter.test(key[0])) {
-	                    data = filter(_data, key, 'py');
+	                var _filter = props.filter;
+	                if (typeof _filter === 'function') {
+	                    data = _filter(_data, _search, props.valueName, props.labelName) || [];
 	                } else {
-	                    data = filter(_data, key, 'name');
+	                    data = _filter(_data, _search, _filter);
 	                }
 
 	                if (!data.length) {
 	                    data = [_defineProperty({
 	                        disabled: true
-	                    }, this.props.valueName, 'Not Found')];
+	                    }, props.valueName, 'Not Found')];
 
 	                    this.isNotFound = true;
 	                }
@@ -20626,6 +20646,7 @@
 	    placeholder: '',
 	    labelName: 'key',
 	    valueName: 'value',
+	    filter: 'value',
 	    menuStyle: {},
 	    onSelect: noop,
 	    onBlur: noop,
@@ -20648,7 +20669,8 @@
 	    onBlur: _react2.default.PropTypes.func,
 	    onTab: _react2.default.PropTypes.func,
 	    listHeight: _react2.default.PropTypes.number.isRequired,
-	    virtualMinLen: _react2.default.PropTypes.number
+	    virtualMinLen: _react2.default.PropTypes.number,
+	    filter: _react2.default.PropTypes.oneOfType([_react2.default.PropTypes.string, _react2.default.PropTypes.func])
 	};
 
 	exports.default = Autocomplete;
@@ -20688,7 +20710,7 @@
 
 
 	// module
-	exports.push([module.id, "/*autocomplete*/\r\n.autocomplete {\r\n    display: inline-block;\r\n}\r\n\r\n.autocomplete .comboBox {\r\n    font-size: 14px;\r\n    line-height: 30px;\r\n    position: relative;\r\n    z-index: 1;\r\n    width: 200px;\r\n    vertical-align: middle;\r\n    color: #999;\r\n    border: 1px solid #d4d4d4;\r\n    background-color: #fff;\r\n}\r\n\r\n.autocomplete .comboBox:hover {\r\n    border: 1px solid #a8a8b6;\r\n}\r\n\r\n.autocomplete .comboBox-inputWrap {\r\n    width: 100%;\r\n}\r\n\r\n.autocomplete .comboBox-input {\r\n    width: 100%;\r\n    height: 30px;\r\n    color: #999;\r\n    border: 0 none;\r\n    outline: 0 none;\r\n    background-color: transparent;\r\n}\r\n\r\n.autocomplete .comboBox-btn {\r\n    position: absolute;\r\n    top: 0;\r\n    right: 0;\r\n    width: 16px;\r\n    height: 100%;\r\n    cursor: pointer;\r\n    text-align: center;\r\n    vertical-align: middle;\r\n    outline: none;\r\n}\r\n\r\n.autocomplete .comboBox-btn-arrow {\r\n    display: inline-block;\r\n    width: 0;\r\n    height: 0;\r\n    border-width: 5px 5px 2.5px;\r\n    border-style: solid;\r\n    border-color: #999 transparent transparent;\r\n}\r\n\r\n.autocomplete .comboBox-btn:hover .comboBox-btn-arrow {\r\n    border-top-color: #666;\r\n}\r\n\r\n.autocomplete .listMenu {\r\n    position: absolute;\r\n    overflow-x: hidden;\r\n    overflow-y: auto;\r\n    width: 200px;\r\n    min-height: 30px;\r\n    margin-top: -1px;\r\n    color: #666;\r\n    border: 1px solid #d4d4d4;\r\n    border-top: 0 none;\r\n    outline: none;\r\n    background-color: #fff;\r\n}\r\n\r\n.autocomplete .listMenu-item {\r\n    line-height: 30px;\r\n    overflow: hidden;\r\n    margin: 0;\r\n    padding: 0 16px 0 4px;\r\n    cursor: pointer;\r\n    white-space: nowrap;\r\n    text-overflow: ellipsis;\r\n    border-top: 1px solid #d4d4d4;\r\n    outline: none;\r\n}\r\n\r\n.autocomplete .listMenu-item-hover {\r\n    background-color: #a8a8b6;\r\n}\r\n\r\n.autocomplete .listMenu-item-active {\r\n    background-color: #9c9c9d;\r\n}\r\n\r\n.autocomplete .listMenu-item-disabled {\r\n    color: #adad92;\r\n    background-color: #e3e3e4;\r\n}\r\n\r\n.autocomplete .comboBox-clear {\r\n    position: absolute;\r\n    top: 0;\r\n    right: 16px;\r\n    width: 16px;\r\n    height: 100%;\r\n    cursor: pointer;\r\n    text-align: center;\r\n    vertical-align: middle;\r\n    color: #999;\r\n    outline: none;\r\n}\r\n\r\n.autocomplete .comboBox-clear:hover {\r\n    color: #d0021b;\r\n}\r\n\r\n.autocomplete .comboBox-clear-inner {\r\n    font-size: 18px;\r\n    line-height: 1;\r\n    display: inline-block;\r\n}\r\n\r\n.autocomplete .comboBox-loading {\r\n    position: absolute;\r\n    top: 0;\r\n    right: 16px;\r\n    width: 16px;\r\n    height: 100%;\r\n    cursor: pointer;\r\n    text-align: center;\r\n    color: #999;\r\n    outline: none;\r\n}\r\n\r\n.autocomplete .comboBox-loading-inner {\r\n    position: absolute;\r\n    top: 50%;\r\n    left: 50%;\r\n    display: inline-block;\r\n    box-sizing: border-box;\r\n    width: 16px;\r\n    height: 16px;\r\n    margin-top: -8px;\r\n    margin-left: -8px;\r\n    -webkit-animation: autocomplete-animation-loading 400ms infinite linear;\r\n    animation: autocomplete-animation-loading 400ms infinite linear;\r\n    vertical-align: middle;\r\n    border: 2px solid #ccc;\r\n    border-right-color: #333;\r\n    border-radius: 50%;\r\n}\r\n\r\n.autocomplete.is-disabled {\r\n    cursor: default;\r\n    pointer-events: none;\r\n    background-color: #f6f6f6;\r\n}\r\n\r\n.autocomplete.is-disabled .comboBox-btn {\r\n    cursor: default;\r\n    pointer-events: none;\r\n}\r\n\r\n.autocomplete.is-disabled .comboBox-clear {\r\n    cursor: default;\r\n    pointer-events: none;\r\n}\r\n\r\n@keyframes autocomplete-animation-loading {\r\n    to {\r\n        -webkit-transform: rotate(1turn);\r\n                transform: rotate(1turn);\r\n    }\r\n}\r\n\r\n@-webkit-keyframes autocomplete-animation-loading {\r\n    to {\r\n        -webkit-transform: rotate(1turn);\r\n    }\r\n}\r\n", ""]);
+	exports.push([module.id, "/*autocomplete*/\r\n\r\n.autocomplete {\r\n    display: inline-block;\r\n}\r\n\r\n.autocomplete .comboBox {\r\n    font-size: 14px;\r\n    line-height: 30px;\r\n    position: relative;\r\n    z-index: 1;\r\n    width: 200px;\r\n    vertical-align: middle;\r\n    color: #999;\r\n    border: 1px solid #d4d4d4;\r\n    background-color: #fff;\r\n}\r\n\r\n.autocomplete .comboBox:hover {\r\n    border: 1px solid #a8a8b6;\r\n}\r\n\r\n.autocomplete .comboBox-inputWrap {\r\n    width: 100%;\r\n}\r\n\r\n.autocomplete .comboBox-input {\r\n    font-size: 16px;\r\n    width: 100%;\r\n    height: 30px;\r\n    color: #999;\r\n    border: 0 none;\r\n    outline: 0 none;\r\n    background-color: transparent;\r\n}\r\n\r\n.autocomplete .comboBox-btn {\r\n    position: absolute;\r\n    top: 0;\r\n    right: 0;\r\n    width: 16px;\r\n    height: 100%;\r\n    cursor: pointer;\r\n    text-align: center;\r\n    vertical-align: middle;\r\n    outline: none;\r\n}\r\n\r\n.autocomplete .comboBox-btn-arrow {\r\n    display: inline-block;\r\n    width: 0;\r\n    height: 0;\r\n    border-width: 5px 5px 2.5px;\r\n    border-style: solid;\r\n    border-color: #999 transparent transparent;\r\n}\r\n\r\n.autocomplete .comboBox-btn:hover .comboBox-btn-arrow {\r\n    border-top-color: #666;\r\n}\r\n\r\n.autocomplete .listMenu {\r\n    position: absolute;\r\n    overflow-x: hidden;\r\n    overflow-y: auto;\r\n    width: 200px;\r\n    min-height: 30px;\r\n    margin-top: -1px;\r\n    color: #666;\r\n    border: 1px solid #d4d4d4;\r\n    border-top: 0 none;\r\n    outline: none;\r\n    background-color: #fff;\r\n}\r\n\r\n.autocomplete .listMenu-item {\r\n    line-height: 30px;\r\n    overflow: hidden;\r\n    margin: 0;\r\n    padding: 0 16px 0 4px;\r\n    cursor: pointer;\r\n    white-space: nowrap;\r\n    text-overflow: ellipsis;\r\n    border-top: 1px solid #d4d4d4;\r\n    outline: none;\r\n}\r\n\r\n.autocomplete .listMenu-item-hover {\r\n    background-color: #a8a8b6;\r\n}\r\n\r\n.autocomplete .listMenu-item-active {\r\n    background-color: #9c9c9d;\r\n}\r\n\r\n.autocomplete .listMenu-item-disabled {\r\n    color: #adad92;\r\n    background-color: #e3e3e4;\r\n}\r\n\r\n.autocomplete .comboBox-clear {\r\n    position: absolute;\r\n    top: 0;\r\n    right: 16px;\r\n    width: 16px;\r\n    height: 100%;\r\n    cursor: pointer;\r\n    text-align: center;\r\n    vertical-align: middle;\r\n    color: #999;\r\n    outline: none;\r\n}\r\n\r\n.autocomplete .comboBox-clear:hover {\r\n    color: #d0021b;\r\n}\r\n\r\n.autocomplete .comboBox-clear-inner {\r\n    font-size: 18px;\r\n    line-height: 1;\r\n    display: inline-block;\r\n}\r\n\r\n.autocomplete .comboBox-loading {\r\n    position: absolute;\r\n    top: 0;\r\n    right: 16px;\r\n    width: 16px;\r\n    height: 100%;\r\n    cursor: pointer;\r\n    text-align: center;\r\n    color: #999;\r\n    outline: none;\r\n}\r\n\r\n.autocomplete .comboBox-loading-inner {\r\n    position: absolute;\r\n    top: 50%;\r\n    left: 50%;\r\n    display: inline-block;\r\n    box-sizing: border-box;\r\n    width: 16px;\r\n    height: 16px;\r\n    margin-top: -8px;\r\n    margin-left: -8px;\r\n    -webkit-animation: autocomplete-animation-loading 400ms infinite linear;\r\n    animation: autocomplete-animation-loading 400ms infinite linear;\r\n    vertical-align: middle;\r\n    border: 2px solid #ccc;\r\n    border-right-color: #333;\r\n    border-radius: 50%;\r\n}\r\n\r\n.autocomplete.is-disabled {\r\n    cursor: default;\r\n    pointer-events: none;\r\n    background-color: #f6f6f6;\r\n}\r\n\r\n.autocomplete.is-disabled .comboBox-btn {\r\n    cursor: default;\r\n    pointer-events: none;\r\n}\r\n\r\n.autocomplete.is-disabled .comboBox-clear {\r\n    cursor: default;\r\n    pointer-events: none;\r\n}\r\n\r\n@keyframes autocomplete-animation-loading {\r\n    to {\r\n        -webkit-transform: rotate(1turn);\r\n                transform: rotate(1turn);\r\n    }\r\n}\r\n\r\n@-webkit-keyframes autocomplete-animation-loading {\r\n    to {\r\n        -webkit-transform: rotate(1turn);\r\n    }\r\n}\r\n", ""]);
 
 	// exports
 
