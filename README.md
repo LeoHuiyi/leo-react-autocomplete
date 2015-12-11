@@ -47,3 +47,7 @@ ReactDOM.render(
 :-----------------------|:--------------|:--------------|:--------------------------------
 data	|	array	|	[]	|	数据源
 
+
+# License
+
+MIT Licensed. Copyright (c) leoHuiyi 2015.
