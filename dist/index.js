@@ -75,7 +75,7 @@
 
 	_reactDom2.default.render(_react2.default.createElement(_Autocomplete2.default, {
 	    width: 396,
-	    data: getData(10),
+	    data: getData(10000),
 	    filter: function filter(data, search, value, label) {
 	        return data = data.filter(function (item) {
 	            return item[value].indexOf(search) > -1;
@@ -20028,11 +20028,11 @@
 	            if (!_search || !_data.length) {
 	                data = _data;
 	            } else {
-	                var _filter = props.filter;
-	                if (typeof _filter === 'function') {
-	                    data = _filter(_data, _search, props.valueName, props.labelName) || [];
+	                var propsfilter = props.filter;
+	                if (typeof propsfilter === 'function') {
+	                    data = propsfilter(_data, _search, props.valueName, props.labelName) || [];
 	                } else {
-	                    data = _filter(_data, _search, _filter);
+	                    data = filter(_data, _search, propsfilter);
 	                }
 
 	                if (!data.length) {
@@ -20638,7 +20638,7 @@
 	;
 
 	Autocomplete.defaultProps = {
-	    data: {},
+	    data: [],
 	    visible: false,
 	    width: 200,
 	    style: {},
@@ -20656,7 +20656,7 @@
 	};
 
 	Autocomplete.propTypes = {
-	    data: _react2.default.PropTypes.oneOfType([_react2.default.PropTypes.array, _react2.default.PropTypes.object]),
+	    data: _react2.default.PropTypes.array,
 	    visible: _react2.default.PropTypes.bool,
 	    width: _react2.default.PropTypes.number,
 	    style: _react2.default.PropTypes.object,

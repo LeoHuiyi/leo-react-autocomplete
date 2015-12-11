@@ -276,11 +276,11 @@ class Autocomplete extends React.Component {
         if(!search || !_data.length){
             data = _data;
         }else{
-            let filter = props.filter;
-            if(typeof filter === 'function'){
-                data = filter(_data, search, props.valueName, props.labelName) || [];
+            let propsfilter = props.filter;
+            if(typeof propsfilter === 'function'){
+                data = propsfilter(_data, search, props.valueName, props.labelName) || [];
             }else{
-                data = filter(_data, search, filter);
+                data = filter(_data, search, propsfilter);
             }
 
             if(!data.length){
@@ -789,7 +789,7 @@ class Autocomplete extends React.Component {
 };
 
 Autocomplete.defaultProps = {
-    data: {},
+    data: [],
     visible: false,
     width: 200,
     style: {},
@@ -807,10 +807,7 @@ Autocomplete.defaultProps = {
 };
 
 Autocomplete.propTypes = {
-    data: React.PropTypes.oneOfType([
-        React.PropTypes.array,
-        React.PropTypes.object
-    ]),
+    data: React.PropTypes.array,
     visible: React.PropTypes.bool,
     width: React.PropTypes.number,
     style: React.PropTypes.object,
