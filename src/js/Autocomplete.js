@@ -129,7 +129,7 @@ class Autocomplete extends React.Component {
         }
 
         if(nextProps.value !== this.props.value){
-            this.getSelectedData(nextProps.value);
+            this.getSelectedData(nextProps.value, true);
         }
     }
 
@@ -181,13 +181,13 @@ class Autocomplete extends React.Component {
         }
     };
 
-    getSelectedData(val){
+    getSelectedData(val, isValue){
         let _data = this._data;
 
         if(_data.length){
             let valueName = this.props.valueName;
             let labelName = this.props.labelName;
-            let keyName = labelName ? labelName : valueName;
+            let keyName = isValue ? valueName : labelName;
 
             for (let i = 0, len = _data.length; i < len; i++) {
                 if(_data[i][keyName] == val){
@@ -225,7 +225,7 @@ class Autocomplete extends React.Component {
             props.data.then((data)=> {
                 this.setData(data);
                 this.search();
-                this.getSelectedData(props.label);
+                props.value !== false ? this.getSelectedData(props.value, true) : props.label !== false ? this.getSelectedData(props.label) : false;
                 this.setState({
                     disabled: false
                 });
@@ -234,8 +234,7 @@ class Autocomplete extends React.Component {
         }else{
             this.setData(props.data);
             this.search();
-            this.getSelectedData(props.label);
-
+            props.value !== false ? this.getSelectedData(props.value, true) : props.label !== false ? this.getSelectedData(props.label) : false;
             this.setState({
                 disabled: false
             });
@@ -793,7 +792,8 @@ Autocomplete.defaultProps = {
     visible: false,
     width: 200,
     style: {},
-    value: '',
+    value: false,
+    label: false,
     placeholder: '',
     labelName: 'key',
     valueName: 'value',
@@ -811,7 +811,8 @@ Autocomplete.propTypes = {
     visible: React.PropTypes.bool,
     width: React.PropTypes.number,
     style: React.PropTypes.object,
-    value: React.PropTypes.string,
+    value: React.PropTypes.any,
+    label: React.PropTypes.any,
     placeholder: React.PropTypes.string,
     labelName: React.PropTypes.string,
     valueName: React.PropTypes.string,

@@ -19,6 +19,7 @@ ReactDOM.render(
     <Autocomplete
         width={396}
         data={getData(10000)}
+        value={'leo100'}
         filter={(data, search, value, label)=> {
             return data = data.filter((item)=> {
                 return item[value].indexOf(search) > -1;

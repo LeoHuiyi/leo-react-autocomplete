@@ -76,6 +76,7 @@
 	_reactDom2.default.render(_react2.default.createElement(_Autocomplete2.default, {
 	    width: 396,
 	    data: getData(10000),
+	    value: 'leo100',
 	    filter: function filter(data, search, value, label) {
 	        return data = data.filter(function (item) {
 	            return item[value].indexOf(search) > -1;
@@ -19864,7 +19865,7 @@
 	            }
 
 	            if (nextProps.value !== this.props.value) {
-	                this.getSelectedData(nextProps.value);
+	                this.getSelectedData(nextProps.value, true);
 	            }
 	        }
 	    }, {
@@ -19920,13 +19921,13 @@
 	        }
 	    }, {
 	        key: "getSelectedData",
-	        value: function getSelectedData(val) {
+	        value: function getSelectedData(val, isValue) {
 	            var _data = this._data;
 
 	            if (_data.length) {
 	                var valueName = this.props.valueName;
 	                var labelName = this.props.labelName;
-	                var keyName = labelName ? labelName : valueName;
+	                var keyName = isValue ? valueName : labelName;
 
 	                for (var i = 0, len = _data.length; i < len; i++) {
 	                    if (_data[i][keyName] == val) {
@@ -19968,7 +19969,7 @@
 	                props.data.then(function (data) {
 	                    _this4.setData(data);
 	                    _this4.search();
-	                    _this4.getSelectedData(props.label);
+	                    props.value !== false ? _this4.getSelectedData(props.value, true) : props.label !== false ? _this4.getSelectedData(props.label) : false;
 	                    _this4.setState({
 	                        disabled: false
 	                    });
@@ -19977,8 +19978,7 @@
 	            } else {
 	                this.setData(props.data);
 	                this.search();
-	                this.getSelectedData(props.label);
-
+	                props.value !== false ? this.getSelectedData(props.value, true) : props.label !== false ? this.getSelectedData(props.label) : false;
 	                this.setState({
 	                    disabled: false
 	                });
@@ -20642,7 +20642,8 @@
 	    visible: false,
 	    width: 200,
 	    style: {},
-	    value: '',
+	    value: false,
+	    label: false,
 	    placeholder: '',
 	    labelName: 'key',
 	    valueName: 'value',
@@ -20660,7 +20661,8 @@
 	    visible: _react2.default.PropTypes.bool,
 	    width: _react2.default.PropTypes.number,
 	    style: _react2.default.PropTypes.object,
-	    value: _react2.default.PropTypes.string,
+	    value: _react2.default.PropTypes.any,
+	    label: _react2.default.PropTypes.any,
 	    placeholder: _react2.default.PropTypes.string,
 	    labelName: _react2.default.PropTypes.string,
 	    valueName: _react2.default.PropTypes.string,

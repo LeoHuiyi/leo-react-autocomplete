@@ -19,6 +19,15 @@ module.exports = {
         path: path.join(__dirname, './dist'),
         filename: '[name].js'
     },
+    // entry: {
+    //     index: './src/js/Autocomplete.js'
+    // },
+    // output: {//umd
+    //     path: path.resolve(__dirname, 'umd'),
+    //     filename: 'Autocomplete.js', // 注意我们使用了变量
+    //     library: ["Autocomplete"],
+    //     libraryTarget: "umd"
+    // },
     module: {
         //加载器配置
         loaders: [{
