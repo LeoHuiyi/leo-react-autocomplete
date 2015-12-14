@@ -46,6 +46,21 @@ ReactDOM.render(
 	Property	|	Type		|	Default		|	Description
 :-----------------------|:--------------|:--------------|:--------------------------------
 data	|	array	|	[]	|	数据源
+visible	|	bool	|	false	|	首次显示
+width	|	number	|	200	|	宽
+style	|	object	|	{}	|	autocomplete style
+value	|	any	|	false	|	value
+label	|	any	|	false	|	label
+placeholder	|	string	|	''	|	input placeholder
+labelName	|	string	|	'key	|	labelName
+valueName	|	string	|	'value'	|	valueName
+menuStyle	|	object	|	{}	|	menuStyle
+onSelect	|	func	|	noop	|	onSelect
+onBlur	|	func	|	noop	|	onSelect
+onTab	|	func	|	noop	|	onTab
+listHeight	|	number	|	30	|	listHeight
+virtualMinLen	|	number	|	30	|	大于多少条数据使用虚拟dom
+filter	|	string || func	|	'value'	|	filter
 
 
 # License
