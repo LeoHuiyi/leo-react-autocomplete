@@ -1,7 +1,7 @@
-leo-react-autocomplete
+leo-react-autocomplete   [Demo](http://leohuiyi.github.io/leoCode.html?htmlUrl=./leoCodeDemo/leo-react-autocomplete/index.html)
 ============
 
-react的autocomplete组件支持虚拟dom可支持几万条数据匹配.
+reac-autocomplete组件（支持虚拟dom可支持几万条数据匹配）.
 
 
 ## Demo & Examples
