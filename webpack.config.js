@@ -5,11 +5,10 @@ var node_modules = path.resolve(__dirname, 'node_modules');
 module.exports = {
     //插件项
     plugins: [new webpack.optimize.MinChunkSizePlugin({
-            compress: {
-                warnings: false
-            }
-        })
-    ],
+        compress: {
+            warnings: false
+        }
+    })],
     //页面入口文件配置
     entry: {
         index: './src/index.js'
@@ -22,19 +21,30 @@ module.exports = {
     // entry: {
     //     index: './src/js/Autocomplete.js'
     // },
-    // output: {//umd
+    // output: { //umd
     //     path: path.resolve(__dirname, 'umd'),
     //     filename: 'Autocomplete.js', // 注意我们使用了变量
-    //     library: ["Autocomplete"],
+    //     library: "Autocomplete",
     //     libraryTarget: "umd"
     // },
+    // externals: [{
+    //     'react': {
+    //         root: 'React',
+    //         umd: 'react'
+    //     }
+    // }, {
+    //     'react-dom': {
+    //         root: 'ReactDOM',
+    //         umd: 'react-dom'
+    //     }
+    // }],
     module: {
         //加载器配置
         loaders: [{
             test: /\.(js|jsx)$/,
             exclude: /node_modules/,
             loader: 'babel-loader'
-        },{
+        }, {
             test: /\.css$/,
             exclude: /node_modules/,
             loader: 'style-loader!css-loader!autoprefixer-loader'
