@@ -1,6 +1,7 @@
 import "../css/autocomplete.css";
 import React from "react";
 import ReactDOM from "react-dom";
+import "babel-polyfill";
 
 function copyProps(props, names){
     let copy = {}, name;

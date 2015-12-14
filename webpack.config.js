@@ -11,7 +11,7 @@ module.exports = {
     })],
     //页面入口文件配置
     entry: {
-        index: './src/index.js'
+        index: './index.js'
     },
     //入口文件输出配置
     output: {
@@ -19,12 +19,12 @@ module.exports = {
         filename: '[name].js'
     },
     // entry: {
-    //     index: './src/js/Autocomplete.js'
+    //     index: './src/index.js'
     // },
     // output: { //umd
     //     path: path.resolve(__dirname, 'umd'),
     //     filename: 'Autocomplete.js', // 注意我们使用了变量
-    //     library: "Autocomplete",
+    //     library: "leoReact",
     //     libraryTarget: "umd"
     // },
     // externals: [{
